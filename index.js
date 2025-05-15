@@ -92,6 +92,29 @@ app.post("/api/products", async (req, res) => {
   }
 });
 
+async function getAllProducts() {
+  try {
+    const allProducts = await Product.find();
+
+    return allProducts;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+app.get("/api/products", async (req, res) => {
+  try {
+    const productData = await getAllProducts();
+    if (productData.length != 0) {
+      res.send(productData);
+    } else {
+      res.status(404).json({ error: "No Product Found!" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch the Product" });
+  }
+});
+
 app.listen(3000, () => {
   console.log("Server is Running");
 });
