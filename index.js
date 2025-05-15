@@ -94,7 +94,7 @@ app.post("/api/products", async (req, res) => {
 
 async function getAllProducts() {
   try {
-    const allProducts = await Product.find();
+    const allProducts = await Product.find().populate("category");
 
     return allProducts;
   } catch (err) {
