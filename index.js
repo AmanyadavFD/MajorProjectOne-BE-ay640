@@ -68,6 +68,30 @@ app.get("/api/categories", async (req, res) => {
   }
 });
 
+async function addProductsData(newProduct) {
+  try {
+    const product = new Product(newProduct);
+    const saveProduct = await product.save();
+    return saveProduct;
+    // console.log(saveMovie);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+app.post("/api/products", async (req, res) => {
+  try {
+    const savePro = await addProductsData(req.body);
+    res.status(201).json({
+      message: "Product added successfully.",
+      product: savePro,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to add Product." });
+    console.log(error);
+  }
+});
+
 app.listen(3000, () => {
   console.log("Server is Running");
 });
